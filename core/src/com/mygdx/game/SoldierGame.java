@@ -2,7 +2,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Game;
 public class SoldierGame extends Game {
-	public static final int HEIGHT = 385;
+	public static final int HEIGHT = 450;
 	public static final int WIDTH = 800;
 	SpriteBatch batch;
 	

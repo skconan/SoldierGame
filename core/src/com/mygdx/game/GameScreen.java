@@ -9,32 +9,41 @@ import com.badlogic.gdx.math.Vector2;
 
 public class GameScreen extends ScreenAdapter {
 	private SoldierGame soldierGame;
-	private Texture bgImg;
+	private Texture bgImg, bgImgView, bgImgTop, moon;
 	private PointRenderer pointRenderer;
 	private MonstersRenderer monstersRenderer;
 	private SoldierRenderer soldierRenderer;
 	private Monsters monsters;
+	private Point point = new Point();
+	
 	public GameScreen(SoldierGame soldierGame){
 		monsters = new Monsters();
 		soldierRenderer = new SoldierRenderer(soldierGame.batch);
 		pointRenderer = new PointRenderer(soldierGame.batch);
 		monstersRenderer = new MonstersRenderer(soldierGame.batch,monsters);
 		this.soldierGame = soldierGame;
+		bgImg = new Texture("bg.png");
+		bgImgTop = new Texture("bg_top.gif");
+		bgImgView = new Texture("bg_view.png");
+		moon = new Texture("moon.png");
 	}
 	
 	public void render(float delta) {
-		bgImg = new Texture("bg.png");
-		
+		Vector2 pt = point.getPositionMouse();
         SpriteBatch batch = soldierGame.batch;
         
 		Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         batch.begin();
-        batch.draw(bgImg, 0, 0);
+        batch.draw(bgImgTop, 0, 0, SoldierGame.WIDTH, SoldierGame.HEIGHT);
+        batch.draw(bgImgView,(int) (0.1*pt.x-SoldierGame.WIDTH/2), 0, SoldierGame.WIDTH*2, SoldierGame.HEIGHT);
+        batch.draw(moon,(int) (0.02*pt.x-SoldierGame.WIDTH/2-200), 50, SoldierGame.WIDTH*2, SoldierGame.HEIGHT);
+        batch.draw(bgImg, 0, 0, SoldierGame.WIDTH, SoldierGame.HEIGHT);
+        
         batch.end();
         soldierRenderer.render();
-        monstersRenderer.render();
+        monstersRenderer.render(delta);
         pointRenderer.render();
     }
 	

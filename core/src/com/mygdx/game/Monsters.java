@@ -2,23 +2,19 @@ package com.mygdx.game;
 
 import java.util.Random;
 
-import com.badlogic.gdx.math.Vector2;
-
 public class Monsters {
-	private String fileMonsters[] = {"monster00.fw.png","monster01.fw.png",
-									"monster02.fw.png","monster03.fw.png",
-									"monster04.fw.png"};
-	private int size[] = {80,40,30};
+	
+	private int size[] = {80,50};
 //	private int blood[] = {3,2,1,1};
 	private int height;
     private int width;
     private Random rand;
     private String MAP[] = {
-			".m...m..m.m...m.",
-			"....m......m.m..",
-			"..m...m.m..m..m.",
-			"....m.....m...m.",
-			".m...m..m.m...m.",
+			".m......m.....m.",
+			"................",
+			"........m.......",
+			"................",
+			".m........m.....",
 			"................",
 			"................",
 	};
@@ -31,7 +27,6 @@ public class Monsters {
 		height = MAP.length;
         width = MAP[0].length();
         initMonsters();
-        System.out.println("dddddddddddddd");
 	}
 	
 	private void initMonsters() {
@@ -45,14 +40,6 @@ public class Monsters {
         }
     }
 	
-	public Vector2 genMonster(){
-		
-		int sizeAndBlood = rand.nextInt(3);
-		int fileMonster = rand.nextInt(4);
-		Vector2 monsterData = new Vector2(fileMonster, sizeAndBlood);
-		return monsterData; 
-	}
-	
 	public boolean hasMonsterAt(int r, int c) {
         return hasMonster[r][c];
     }
@@ -63,13 +50,8 @@ public class Monsters {
         return old;
     }
 	
-	public String getName(){
-		int index = rand.nextInt(3);
-		return fileMonsters[index];
-	}
-	
 	public int getSize(){
-		int index = rand.nextInt(3);
+		int index = rand.nextInt(1);
 		return size[index];
 	}
 	
@@ -81,4 +63,7 @@ public class Monsters {
         return width;
     }
     
+//    public boolean hitMonster(){
+//    	
+//    }
 }
