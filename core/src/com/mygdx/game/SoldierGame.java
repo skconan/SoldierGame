@@ -16,6 +16,6 @@ public class SoldierGame extends Game {
 	}
 
 	public void dispose () {
-
-	}
+        batch.dispose();
+    }
 }

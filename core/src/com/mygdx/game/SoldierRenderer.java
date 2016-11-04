@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 public class SoldierRenderer {
 	private Texture soldierImg;
 	private Point point = new Point();
-	private SoldierGame soldierGame;
 	SpriteBatch batch;
 	
 	public SoldierRenderer(SpriteBatch batch){

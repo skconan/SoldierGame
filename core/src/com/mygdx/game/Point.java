@@ -14,22 +14,23 @@ public class Point {
 		float widthRatio = ((getPositionMouse().x - (SoldierGame.WIDTH/2))/(SoldierGame.WIDTH/2))/2;
 		float widthRatioAbs = Math.abs(widthRatio);
 		float heightRatio = (getPositionMouse().y/SoldierGame.HEIGHT)/2;
-		
-//		System.out.print(widthRatio);
-//  		System.out.print(" ");
-//		System.out.println(heightRatio);
-//		
 		float newDimension = dimension;
 		
-		if(widthRatio < 0.45 || widthRatio < -0.35){
+		System.out.println(widthRatio + " "+ widthRatioAbs +" "+ heightRatio);
+		
+//		if(widthRatioAbs > 0.3 || heightRatio > 0.3){
+//			newDimension = (heightRatio*2)*dimension;
+//		} else {
+//			newDimension = (heightRatio/2 + widthRatioAbs)*dimension;
+//		}
+		if(heightRatio > 0.35){
 			newDimension = (heightRatio*2)*dimension;
-		} else {
-			newDimension = (heightRatio+widthRatioAbs)*dimension;
+		}else{
+			newDimension = (heightRatio + widthRatioAbs)*dimension;
 		}
-//		System.out.println(newDimension);
-//		System.out.println("_____________________________");
-		if(newDimension < 40){
-			newDimension = 40;
+		
+		if(newDimension < 20){
+			newDimension = 20;
 		}
 		return newDimension;
 	}

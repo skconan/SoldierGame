@@ -1,11 +1,10 @@
 package com.mygdx.game;
 
 import java.util.Random;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 
 public class MonstersRenderer {
@@ -39,18 +38,21 @@ public class MonstersRenderer {
 	}
 	
 	public void render(float delta) {
+		monster.update();
 		Vector2 pt = point.getPositionMouse();
 		batch.begin();
-		System.out.println(count);
+		ShapeRenderer shapeRenderer = new ShapeRenderer();
+				 
+//		System.out.println(count);
 		for(int r = 0; r < monster.getHeight(); r++) {
 			 for(int c = 0; c < monster.getWidth(); c++) {		
 				 if(count%100 == 0){ 
 				 	if(monsterMove[r][c] >= 0){
-				 		monsterMove[r][c] = -((float)(rand.nextInt(50)-1)/200); 
+				 		monsterMove[r][c] = -(1); 
 					}else{
-						monsterMove[r][c] = ((float)rand.nextInt(50)+1)/200;
+						monsterMove[r][c] = 1;
 					}
-				 	System.out.println(monsterMove[r][c]);
+//				 	System.out.println(monsterMove[r][c]);
 				}
 				if(monster.hasMonsterAt(r, c)){
 					if(monsterMove[r][c] < 0){
@@ -62,12 +64,22 @@ public class MonstersRenderer {
 						
 						monsterSize[r][c] = monster.getSize();
 					}
-					batch.draw(monsterImg2D[r][c], Math.abs(pt.x)*monsterMove[r][c]+(c*50+monsterSize[r][c]/2), (7-r)*50-monsterSize[r][c]/2, monsterSize[r][c], monsterSize[r][c]);
+
+					monster.getPosition(r, c, Math.abs(pt.x)*monsterMove[r][c]+(c*50-monsterSize[r][c]/2), (7-r)*50-monsterSize[r][c]/2, monsterSize[r][c]);
+					batch.draw(monsterImg2D[r][c], Math.abs(pt.x)*monsterMove[r][c]+(c*50-monsterSize[r][c]/2), (7-r)*50-monsterSize[r][c]/2, monsterSize[r][c], monsterSize[r][c]);
+					
+				}
+				if(monster.createdMonsterAt(r, c) && !monster.hasMonsterAt(r, c)){
+					shapeRenderer.begin(ShapeType.Filled);
+					 shapeRenderer.setColor(1, 1, 0, 1);
+					shapeRenderer.circle(Math.abs(pt.x)*monsterMove[r][c]+(c*50+monsterSize[r][c]/2), (7-r)*50-monsterSize[r][c]/2, monsterSize[r][c]/4);
+					shapeRenderer.end();
 				}
 			 }
 		}
 		count++;
 		
+		 
         batch.end();
     }
 }
