@@ -16,13 +16,8 @@ public class Point {
 		float heightRatio = (getPositionMouse().y/SoldierGame.HEIGHT)/2;
 		float newDimension = dimension;
 		
-		System.out.println(widthRatio + " "+ widthRatioAbs +" "+ heightRatio);
+//		System.out.println(widthRatio + " "+ widthRatioAbs +" "+ heightRatio);
 		
-//		if(widthRatioAbs > 0.3 || heightRatio > 0.3){
-//			newDimension = (heightRatio*2)*dimension;
-//		} else {
-//			newDimension = (heightRatio/2 + widthRatioAbs)*dimension;
-//		}
 		if(heightRatio > 0.35){
 			newDimension = (heightRatio*2)*dimension;
 		}else{

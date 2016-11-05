@@ -13,23 +13,22 @@ public class GameScreen extends ScreenAdapter {
 	private PointRenderer pointRenderer;
 	private MonstersRenderer monstersRenderer;
 	private SoldierRenderer soldierRenderer;
-	private Monsters monsters;
 	private Point point = new Point();
 
 	public GameScreen(SoldierGame soldierGame){
-		monsters = new Monsters();
+		this.soldierGame = soldierGame;
 		soldierRenderer = new SoldierRenderer(soldierGame.batch);
 		pointRenderer = new PointRenderer(soldierGame.batch);
-		monstersRenderer = new MonstersRenderer(soldierGame.batch,monsters);
-		this.soldierGame = soldierGame;
+		monstersRenderer = new MonstersRenderer(soldierGame.batch);
+		
 		bgImg = new Texture("bg.png");
 		bgImgTop = new Texture("bg_top.gif");
 		bgImgView = new Texture("bg_view.png");
 		moon = new Texture("moon.png");
-		
 	}
 	
 	public void render(float delta) {
+		
 		Vector2 pt = point.getPositionMouse();
         SpriteBatch batch = soldierGame.batch;
         
@@ -38,18 +37,18 @@ public class GameScreen extends ScreenAdapter {
        
         batch.begin();
         batch.draw(bgImgTop, 0, 0, SoldierGame.WIDTH, SoldierGame.HEIGHT);
-        batch.draw(bgImgView,(int) (0.1*pt.x-SoldierGame.WIDTH/2), 0, SoldierGame.WIDTH*2, SoldierGame.HEIGHT);
+        batch.draw(bgImgView,(int) (0.07*pt.x-SoldierGame.WIDTH/2), 0, SoldierGame.WIDTH*2, SoldierGame.HEIGHT);
         batch.draw(moon,(int) (0.01*pt.x-SoldierGame.WIDTH/2-200), 50, SoldierGame.WIDTH*2, SoldierGame.HEIGHT);
         batch.draw(bgImg, 0, 0, SoldierGame.WIDTH, SoldierGame.HEIGHT);
-        
         batch.end();
+        
         soldierRenderer.render();
-        monstersRenderer.render(delta);
         pointRenderer.render();
+        monstersRenderer.render(delta);
     }
 	
 	public void update(float delta){
-		
+	
 	}
 	
 	
