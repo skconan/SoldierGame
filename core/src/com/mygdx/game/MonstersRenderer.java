@@ -13,7 +13,7 @@ public class MonstersRenderer {
 	private int[][] monsterSize ;
 	private float[][] monsterMove;
 	private String fileMonsters[] = {"monster06R.fw.png","monster06L.fw.png"};
-	private String fileMonstersAction[] = {"monster06-1.fw.png"};
+//	private String fileMonstersAction[] = {"monster06-1.fw.png"};
 	private Random rand = new Random();
 
 	public MonstersRenderer(SpriteBatch batch) {
@@ -25,9 +25,7 @@ public class MonstersRenderer {
 		for(int i=0; i<2; i++) {
 			monsterImg[i] = new Texture(fileMonsters[i]);
 		}
-		for(int i=0; i<1; i++) {
-			monsterImgAction[i] = new Texture(fileMonstersAction[i]);
-		}
+		
 	}
 	
 	public void render(float delta) {

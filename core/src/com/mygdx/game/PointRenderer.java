@@ -20,6 +20,7 @@ public class PointRenderer {
 	}
 	
 	public void update() {
+		
 //		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
 //			monster.kill((int)pt.x, SoldierGame.HEIGHT-(int)pt.y, radius);
 //        	System.out.println(radius);
