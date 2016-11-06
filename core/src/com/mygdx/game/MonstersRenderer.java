@@ -11,7 +11,7 @@ public class MonstersRenderer {
 	private Texture[] monsterImg = new Texture[10];
 	private Texture[] monsterImgAction = new Texture[10];
 	private int[][] monsterSize ;
-	private float[][] monsterMove;
+	public float[][] monsterMove;
 	private String fileMonsters[] = {"monster06R.fw.png","monster06L.fw.png"};
 //	private String fileMonstersAction[] = {"monster06-1.fw.png"};
 	private Random rand = new Random();

@@ -21,6 +21,7 @@ public class Monsters {
     private Point point = new Point();
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
     private int radius = 0;
+    private int count = 0;
 	
 	public Monsters() {
 		rand = new Random();
@@ -31,11 +32,20 @@ public class Monsters {
 	public void update() {
 		getShot();
 		updateMAP();
+		updateMonsters();
 	}
 	
 	private void initMonsters() {
 		hasMonsters = new boolean[height][width];
 		createdMonsters = new boolean[height][width];
+		
+		for(int r = 0; r < height; r++) {
+			for(int c = 0; c < width; c++){
+				hasMonsters[r][c] = false;
+				createdMonsters[r][c] = false;
+			}
+		}
+		numberOfMonsters = 0;
 		genMAP();
     }
 	
@@ -48,6 +58,9 @@ public class Monsters {
 			ran[2] = rand.nextInt(3);
 			
 			for(int i = 0; i < 3; i++) {
+				if(i > 0 && ran[i] == ran[i-1]){
+					continue;
+				}
 				if(ran[i] < width) {
 					hasMonsters[r][ran[i]] = true;
 					createdMonsters[r][ran[i]] = true;
@@ -60,6 +73,23 @@ public class Monsters {
 	private void updateMAP() {
 		if(numberOfMonsters <= 0) {
 			initMonsters();
+		}
+	}
+	
+	
+	private void updateMonsters() {
+		for(int r = 0; r < height; r++) {
+			for(int c = 0; c < width; c++){	
+				
+				if (hasMonsterAt(r, c)){				
+					int x = (int)monstersPosition[r][c][0];
+					int y = (int)monstersPosition[r][c][1];
+					
+					if(y < -50/2 || x > SoldierGame.WIDTH+50/2) {
+						removeMonsters(r, c);
+					}
+				}
+			}
 		}
 	}
 	
@@ -105,10 +135,10 @@ public class Monsters {
     }
     
     
-    public void getPosition(int r, int c, float x, float y, int monsterSize) {
+    public void getPosition(int r, int c, float x, float y, int monstersSize) {
     	monstersPosition[r][c][0] = x;
     	monstersPosition[r][c][1] = y;
-    	monstersPosition[r][c][2] = monsterSize;
+    	monstersPosition[r][c][2] = monstersSize;
     }
     
     public void kill(int mouseX, int mouseY, int radius) {
@@ -120,11 +150,15 @@ public class Monsters {
 					 int monsterSize = radius - 5;
 
 					 if (mouseX >= x-monsterSize && mouseX <= x+monsterSize && mouseY >= y-monsterSize && mouseY <= y+monsterSize){
-						 hasMonsters[r][c] = false;
-						 numberOfMonsters--;
+						 removeMonsters(r,c);
 					 }
 				 }
 			 }
     	}
+    }
+    
+    public void removeMonsters(int r, int c) {
+    	hasMonsters[r][c] = false;
+		numberOfMonsters--;
     }
 }
