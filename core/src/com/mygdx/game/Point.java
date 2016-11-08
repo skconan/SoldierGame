@@ -15,16 +15,14 @@ public class Point {
 		float widthRatioAbs = Math.abs(widthRatio);
 		float heightRatio = (getPositionMouse().y/SoldierGame.HEIGHT)/2;
 		float newDimension = dimension;
-		
-//		System.out.println(widthRatio + " "+ widthRatioAbs +" "+ heightRatio);
-		
-		if(heightRatio > 0.35){
+
+		if(heightRatio > 0.35) {
 			newDimension = (heightRatio*2)*dimension;
-		}else{
+		} else {
 			newDimension = (heightRatio + widthRatioAbs)*dimension;
 		}
 		
-		if(newDimension < 20){
+		if(newDimension < 20) {
 			newDimension = 20;
 		}
 		return newDimension;

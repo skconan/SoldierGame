@@ -11,36 +11,42 @@ import com.badlogic.gdx.math.Vector2;
 public class Monsters {
 	
 	private int size[] = {100,100};
-	private int height = 4;
-    private int width = 8;
+	private int blood[] = {1,2,3};
+	private int mapHeight = 4;
+    private int mapWidth = 8;
     private int numberOfMonsters = 0;
     private boolean[][] hasMonsters;
 	private boolean[][] createdMonsters;
 	private float[][][] monstersPosition;
+	private int[][] monstersSize;
+	private int[][] monstersBlood;
+	public float[][] monstersMove;
     private Random rand;
     private Point point = new Point();
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
     private int radius = 0;
-    private int count = 0;
+    
 	
 	public Monsters() {
 		rand = new Random();
-        monstersPosition = new float[height][width][3];
-        initMonsters();
+		hasMonsters = new boolean[mapHeight][mapWidth];
+		createdMonsters = new boolean[mapHeight][mapWidth];
+		monstersPosition = new float[mapHeight][mapWidth][3];
+		monstersMove = new float[mapHeight][mapWidth];
+		monstersSize = new int[mapHeight][mapWidth];
+		monstersBlood = new int[mapHeight][mapWidth];
+		initMonsters();
     }
 	
 	public void update() {
-		getShot();
 		updateMAP();
 		updateMonsters();
 	}
 	
 	private void initMonsters() {
-		hasMonsters = new boolean[height][width];
-		createdMonsters = new boolean[height][width];
 		
-		for(int r = 0; r < height; r++) {
-			for(int c = 0; c < width; c++){
+		for(int r = 0; r < mapHeight; r++) {
+			for(int c = 0; c < mapWidth; c++){
 				hasMonsters[r][c] = false;
 				createdMonsters[r][c] = false;
 			}
@@ -49,10 +55,31 @@ public class Monsters {
 		genMAP();
     }
 	
+	public void genMonsters(int r, int c) {
+		monstersSize[r][c] = getSize();
+		monstersPosition[r][c][0] = (c*100+monstersSize[r][c]/2);
+		monstersPosition[r][c][1] = (4-r)*100+monstersSize[r][c]/2;
+		monstersBlood[r][c] = getBlood();
+		
+	}
+	
+	public int[] getMonsters(int r, int c) {
+		monstersMove[r][c] = getMove();
+		monstersPosition[r][c][0] += monstersMove[r][c];
+		monstersPosition[r][c][1] -= monstersMove[r][c];
+		if(monstersSize[r][c] > 100) {
+			monstersSize[r][c] = (int) (monstersSize[r][c] - monstersMove[r][c]/50);
+		} else {
+			monstersSize[r][c] = (int) (monstersSize[r][c] + monstersMove[r][c]/50);
+		}
+		int[] property ={monstersSize[r][c], (int) monstersPosition[r][c][0], (int) monstersPosition[r][c][1], monstersBlood[r][c]};
+		return property;
+	}
+	
 	private void genMAP() {
 		int[] ran = new int[3];
 		
-		for (int r = 0; r < height; r++) {
+		for (int r = 0; r < mapHeight; r++) {
 			ran[0] = rand.nextInt(3)+4;
 			ran[1] = rand.nextInt(10);
 			ran[2] = rand.nextInt(3);
@@ -61,7 +88,7 @@ public class Monsters {
 				if(i > 0 && ran[i] == ran[i-1]){
 					continue;
 				}
-				if(ran[i] < width) {
+				if(ran[i] < mapWidth) {
 					hasMonsters[r][ran[i]] = true;
 					createdMonsters[r][ran[i]] = true;
 					numberOfMonsters++;
@@ -78,8 +105,8 @@ public class Monsters {
 	
 	
 	private void updateMonsters() {
-		for(int r = 0; r < height; r++) {
-			for(int c = 0; c < width; c++){	
+		for(int r = 0; r < mapHeight; r++) {
+			for(int c = 0; c < mapWidth; c++){	
 				
 				if (hasMonsterAt(r, c)){				
 					int x = (int)monstersPosition[r][c][0];
@@ -102,53 +129,37 @@ public class Monsters {
 		createdMonsters[r][c] = false;
         return old;
     }
-	
-	private void getShot() {
-		Vector2 pt = point.getPositionMouse();
-		
-		if (Gdx.input.isButtonPressed(Buttons.LEFT)){
-			kill((int)pt.x, SoldierGame.HEIGHT-(int)pt.y, radius);
-			shapeRenderer.begin(ShapeType.Filled);
-			shapeRenderer.setColor(1, 1, 0, 2);
-			shapeRenderer.circle(pt.x, SoldierGame.HEIGHT-pt.y, radius);
-			shapeRenderer.end();
-			radius++;
-			if(radius > 20) {
-				radius = 0;
-			}
-		} else {
-			radius = 0;
-		}
-	}
-	
+
 	public int getSize() {
 		int index = rand.nextInt(size.length-1);
 		return size[index];
 	}
 	
-	public int getHeight() {
-        return height;
+	public int getBlood() {
+		int index = rand.nextInt(blood.length-1);
+		return blood[index];
+	}
+	
+	public int getMove() {
+		return  rand.nextInt(80)/50;
+	}
+	
+	public int getMapHeight() {
+        return mapHeight;
     }
  
-    public int getWidth() {
-        return width;
-    }
-    
-    
-    public void getPosition(int r, int c, float x, float y, int monstersSize) {
-    	monstersPosition[r][c][0] = x;
-    	monstersPosition[r][c][1] = y;
-    	monstersPosition[r][c][2] = monstersSize;
+    public int getMapWidth() {
+        return mapWidth;
     }
     
     public void kill(int mouseX, int mouseY, int radius) {
-    	for (int r = 0; r < height; r++) {
-			 for (int c = 0; c < width; c++) {	
+    	for (int r = 0; r < mapHeight; r++) {
+			 for (int c = 0; c < mapWidth; c++) {	
 				 if (hasMonsterAt(r, c)){
 					 int x = (int)monstersPosition[r][c][0];
 					 int y = (int)monstersPosition[r][c][1];
 					 int monsterSize = radius - 5;
-
+					 System.out.println(x + " " + y);
 					 if (mouseX >= x-monsterSize && mouseX <= x+monsterSize && mouseY >= y-monsterSize && mouseY <= y+monsterSize){
 						 removeMonsters(r,c);
 					 }

@@ -1,46 +1,51 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 
 public class PointRenderer {
 	private Point point = new Point();
-//	private Monsters monster = new Monsters();
+	private Monsters monsters;
 	ShapeRenderer shapeRenderer = new ShapeRenderer();
 	private Texture pointImg;
 	private Vector2 pt;
-//	private int radius = 0;
+	private int radius = 0;
 	SpriteBatch batch;
 	
-	public PointRenderer(SpriteBatch batch){
+	public PointRenderer(SpriteBatch batch, Monsters monsters){
 		this.batch = batch;
 		pointImg = new Texture("point.fw.png");
+		this.monsters = monsters;
 	}
 	
 	public void update() {
-		
-//		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
-//			monster.kill((int)pt.x, SoldierGame.HEIGHT-(int)pt.y, radius);
-//        	System.out.println(radius);
-//			shapeRenderer.begin(ShapeType.Filled);
-//			shapeRenderer.setColor(1, 1, 0, 1);
-//			shapeRenderer.circle(pt.x, SoldierGame.HEIGHT-pt.y, radius);
-//			shapeRenderer.end();
-//			
-//			radius++;
-//			if(radius > 15) {
-//				radius = 0;
-//			}	
-//        }
-//		else {
-//			radius = 0;
-//		}
+		shoot();
 	}
 	
+	private void shoot() {
+		Vector2 pt = point.getPositionMouse();
+		
+		if (Gdx.input.isButtonPressed(Buttons.LEFT)){
+			monsters.kill((int)pt.x, SoldierGame.HEIGHT-(int)pt.y, radius);
+			shapeRenderer.begin(ShapeType.Filled);
+			shapeRenderer.setColor(1, 1, 0, 2);
+			shapeRenderer.circle(pt.x, SoldierGame.HEIGHT-pt.y, radius);
+			shapeRenderer.end();
+			radius++;
+			if(radius > 20) {
+				radius = 0;
+			}
+		} else {
+			radius = 0;
+		}
+	}
 	public void render() {
-//		update();
+		update();
 		float dimension = point.getDimension();
 		pt = point.getPositionMouse();
 		
