@@ -3,25 +3,27 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 
 public class SoldierRenderer {
 	private Texture soldierImg;
 	private Sprite soldierSprite;
-	private Point point = new Point();
 	SpriteBatch batch;
-
-	public SoldierRenderer(SpriteBatch batch){
+	World world;
+	
+	public SoldierRenderer(SpriteBatch batch, World world){
 		this.batch = batch;
+		this.world = world;
 		soldierImg = new Texture("Untitled-1.png");
 		soldierSprite = new Sprite(soldierImg);
 	}
 	
 	public void render() {
-		Vector2 pt = point.getPositionMouse();
-
+		float x = (world.getSoldier().getPostion())[0];
+		float y = (world.getSoldier().getPostion())[1];
+		float rotation = (world.getSoldier().getPostion())[2];
+		
         batch.begin();
-        batch.draw(soldierSprite, pt.x/7 + SoldierGame.WIDTH-350, -30 + -pt.y/10, 0, 0, 300, 200, 1, 1, -pt.x/120);
+        batch.draw(soldierSprite, x, y, 0, 0, 300, 200, 1, 1, rotation);
         batch.end();
     }
 }

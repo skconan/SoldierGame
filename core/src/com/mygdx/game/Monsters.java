@@ -2,12 +2,6 @@ package com.mygdx.game;
 
 import java.util.Random;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Buttons;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Vector2;
-
 public class Monsters {
 	
 	private int size[] = {100,100};
@@ -22,12 +16,10 @@ public class Monsters {
 	private int[][] monstersBlood;
 	public float[][] monstersMove;
     private Random rand;
-    private Point point = new Point();
-    private ShapeRenderer shapeRenderer = new ShapeRenderer();
-    private int radius = 0;
-    
+    private World world;
 	
-	public Monsters() {
+	public Monsters(World world) {
+		this.world = world;
 		rand = new Random();
 		hasMonsters = new boolean[mapHeight][mapWidth];
 		createdMonsters = new boolean[mapHeight][mapWidth];
@@ -103,7 +95,6 @@ public class Monsters {
 		}
 	}
 	
-	
 	private void updateMonsters() {
 		for(int r = 0; r < mapHeight; r++) {
 			for(int c = 0; c < mapWidth; c++){	
@@ -161,8 +152,10 @@ public class Monsters {
 					 int monsterSize = radius - 5;
 					 System.out.println(x + " " + y);
 					 if (mouseX >= x-monsterSize && mouseX <= x+monsterSize && mouseY >= y-monsterSize && mouseY <= y+monsterSize){
+						 world.increaseScore();
 						 removeMonsters(r,c);
 					 }
+					 world.getSoldier().hitMonsters(x, y);
 				 }
 			 }
     	}

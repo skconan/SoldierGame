@@ -13,10 +13,11 @@ public class GameScreen extends ScreenAdapter {
 	
 	public void render(float delta) {
 		worldRenderer.render(delta);
+		update(delta);
     }
 	
 	public void update(float delta){
-	
+		world.update();
 	}
 	
 	

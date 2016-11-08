@@ -9,18 +9,17 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 
 public class PointRenderer {
-	private Point point = new Point();
-	private Monsters monsters;
 	ShapeRenderer shapeRenderer = new ShapeRenderer();
 	private Texture pointImg;
 	private Vector2 pt;
 	private int radius = 0;
 	SpriteBatch batch;
+	World world;
 	
-	public PointRenderer(SpriteBatch batch, Monsters monsters){
+	public PointRenderer(SpriteBatch batch, World world){
 		this.batch = batch;
+		this.world = world;
 		pointImg = new Texture("point.fw.png");
-		this.monsters = monsters;
 	}
 	
 	public void update() {
@@ -28,17 +27,20 @@ public class PointRenderer {
 	}
 	
 	private void shoot() {
-		Vector2 pt = point.getPositionMouse();
+		Vector2 pt = world.getPoint().getPositionMouse();
 		
 		if (Gdx.input.isButtonPressed(Buttons.LEFT)){
-			monsters.kill((int)pt.x, SoldierGame.HEIGHT-(int)pt.y, radius);
-			shapeRenderer.begin(ShapeType.Filled);
-			shapeRenderer.setColor(1, 1, 0, 2);
-			shapeRenderer.circle(pt.x, SoldierGame.HEIGHT-pt.y, radius);
-			shapeRenderer.end();
-			radius++;
+			if(world.getBullet() > 0 && world.getBlood() > 0) {
+				world.getMonsters().kill((int)pt.x, SoldierGame.HEIGHT-(int)pt.y, radius);
+				shapeRenderer.begin(ShapeType.Filled);
+				shapeRenderer.setColor(1, 1, 0, 2);
+				shapeRenderer.circle(pt.x, SoldierGame.HEIGHT-pt.y, radius);
+				shapeRenderer.end();
+				radius++;
+			}
 			if(radius > 20) {
 				radius = 0;
+				world.decreaseBullet();
 			}
 		} else {
 			radius = 0;
@@ -46,8 +48,8 @@ public class PointRenderer {
 	}
 	public void render() {
 		update();
-		float dimension = point.getDimension();
-		pt = point.getPositionMouse();
+		float dimension = world.getPoint().getDimension();
+		pt = world.getPoint().getPositionMouse();
 		
 		batch.begin();
         batch.draw(pointImg, pt.x-dimension/2,SoldierGame.HEIGHT-pt.y-dimension/2,dimension,dimension);
