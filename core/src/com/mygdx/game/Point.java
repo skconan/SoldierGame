@@ -5,11 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Point {
 	private float dimension = 120;
-	
-	public Point(){
 		
-	}
-	
 	public float getDimension() { 
 		float widthRatio = ((getPositionMouse().x - (SoldierGame.WIDTH/2))/(SoldierGame.WIDTH/2))/2;
 		float widthRatioAbs = Math.abs(widthRatio);

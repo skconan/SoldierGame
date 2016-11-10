@@ -36,9 +36,8 @@ public class Monsters {
 	}
 	
 	private void initMonsters() {
-		
 		for(int r = 0; r < mapHeight; r++) {
-			for(int c = 0; c < mapWidth; c++){
+			for(int c = 0; c < mapWidth; c++) {
 				hasMonsters[r][c] = false;
 				createdMonsters[r][c] = false;
 			}
@@ -64,18 +63,16 @@ public class Monsters {
 		} else {
 			monstersSize[r][c] = (int) (monstersSize[r][c] + monstersMove[r][c]/50);
 		}
-		int[] property ={monstersSize[r][c], (int) monstersPosition[r][c][0], (int) monstersPosition[r][c][1], monstersBlood[r][c]};
+		int[] property = {monstersSize[r][c], (int) monstersPosition[r][c][0], (int) monstersPosition[r][c][1], monstersBlood[r][c]};
 		return property;
 	}
 	
 	private void genMAP() {
 		int[] ran = new int[3];
-		
 		for (int r = 0; r < mapHeight; r++) {
 			ran[0] = rand.nextInt(3)+4;
 			ran[1] = rand.nextInt(10);
 			ran[2] = rand.nextInt(3);
-			
 			for(int i = 0; i < 3; i++) {
 				if(i > 0 && ran[i] == ran[i-1]){
 					continue;
@@ -97,12 +94,10 @@ public class Monsters {
 	
 	private void updateMonsters() {
 		for(int r = 0; r < mapHeight; r++) {
-			for(int c = 0; c < mapWidth; c++){	
-				
+			for(int c = 0; c < mapWidth; c++) {	
 				if (hasMonsterAt(r, c)){				
 					int x = (int)monstersPosition[r][c][0];
 					int y = (int)monstersPosition[r][c][1];
-					
 					if(y < -50/2 || x > SoldierGame.WIDTH+50/2) {
 						removeMonsters(r, c);
 					}
@@ -150,12 +145,10 @@ public class Monsters {
 					 int x = (int)monstersPosition[r][c][0];
 					 int y = (int)monstersPosition[r][c][1];
 					 int monsterSize = radius - 5;
-					 System.out.println(x + " " + y);
 					 if (mouseX >= x-monsterSize && mouseX <= x+monsterSize && mouseY >= y-monsterSize && mouseY <= y+monsterSize){
 						 world.increaseScore();
 						 removeMonsters(r,c);
 					 }
-					 world.getSoldier().hitMonsters(x, y);
 				 }
 			 }
     	}

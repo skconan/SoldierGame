@@ -6,14 +6,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class SoldierRenderer {
 	private Texture soldierImg;
+	private Texture bloodImg;
+	private Texture bloodFrameImg;
 	private Sprite soldierSprite;
 	SpriteBatch batch;
 	World world;
 	
-	public SoldierRenderer(SpriteBatch batch, World world){
+	public SoldierRenderer(SpriteBatch batch, World world) {
 		this.batch = batch;
 		this.world = world;
 		soldierImg = new Texture("Untitled-1.png");
+		bloodImg = new Texture("blood.fw.png");
+		bloodFrameImg = new Texture("bloodFrame.fw.png");
 		soldierSprite = new Sprite(soldierImg);
 	}
 	
@@ -21,9 +25,10 @@ public class SoldierRenderer {
 		float x = (world.getSoldier().getPostion())[0];
 		float y = (world.getSoldier().getPostion())[1];
 		float rotation = (world.getSoldier().getPostion())[2];
-		
         batch.begin();
         batch.draw(soldierSprite, x, y, 0, 0, 300, 200, 1, 1, rotation);
+        batch.draw(bloodImg, SoldierGame.WIDTH/2 - 100, SoldierGame.HEIGHT-25, world.getBlood()*2, 20);
+        batch.draw(bloodFrameImg, SoldierGame.WIDTH/2 - 100, SoldierGame.HEIGHT-25, 200, 20);
         batch.end();
     }
 }

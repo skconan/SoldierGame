@@ -26,22 +26,19 @@ public class WorldRenderer {
 	public void render(float delta) {
 		Vector2 pt = world.point.getPositionMouse();
         SpriteBatch batch = soldierGame.batch;
-        
 		Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-       
         batch.begin();
         batch.draw(bgImgTop, 0, 0, SoldierGame.WIDTH, SoldierGame.HEIGHT);
         batch.draw(bgImgView,(int) (0.07*pt.x-SoldierGame.WIDTH/2), 0, SoldierGame.WIDTH*2, SoldierGame.HEIGHT);
         batch.draw(moon,(int) (0.01*pt.x-SoldierGame.WIDTH/2-200), 50, SoldierGame.WIDTH*2, SoldierGame.HEIGHT);
         batch.draw(bgImg, 0, 0, SoldierGame.WIDTH, SoldierGame.HEIGHT);
         font.draw(batch, "SCORE : " + world.getScore(), 10, SoldierGame.HEIGHT-10);
-        font.draw(batch, "BLOOD : " + world.getBlood(), SoldierGame.WIDTH/2 - 100, SoldierGame.HEIGHT-10);
         font.draw(batch, "BULLET : " + world.getBullet(), SoldierGame.WIDTH - 100, SoldierGame.HEIGHT-10);
         batch.end();
-        
         world.pointRenderer.render();
         world.soldierRenderer.render();
+        world.arrowRenderer.render();
         world.monstersRenderer.render(delta);
     }
 }

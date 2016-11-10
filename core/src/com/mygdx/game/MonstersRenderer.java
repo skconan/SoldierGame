@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class MonstersRenderer {
 	private SpriteBatch batch;
 	private Texture[] monsterImg = new Texture[10];
-	private String fileMonsters[] = {"monster06R.fw.png","monster06L.fw.png"};
+	private String fileMonsters[] = {"monster06R.fw.png", "monster06L.fw.png"};
 	private World world;
 	
 	public MonstersRenderer(SpriteBatch batch, World world) {
@@ -20,16 +20,14 @@ public class MonstersRenderer {
 	
 	public void render(float delta) {
 		int[] monstersProperty = new int[5];
-		
 		for (int r = 0; r < world.getMonsters().getMapHeight(); r++) {
 			 for (int c = 0; c < world.getMonsters().getMapWidth(); c++) {				
-				if (world.getMonsters().hasMonsterAt(r, c)){
-					
-					if (world.getMonsters().createdMonsterAt(r, c)){
+				if (world.getMonsters().hasMonsterAt(r, c)) {
+					if (world.getMonsters().createdMonsterAt(r, c)) {
 						world.getMonsters().genMonsters(r, c);
 					}
-					
 					monstersProperty = world.getMonsters().getMonsters(r, c);
+					world.getSoldier().hitMonsters(monstersProperty[1], monstersProperty[2]);
 					batch.begin();
 					batch.draw(monsterImg[0], monstersProperty[1]-monstersProperty[0]/2, monstersProperty[2]-monstersProperty[0]/2, monstersProperty[0],monstersProperty[0]);
 					batch.end();

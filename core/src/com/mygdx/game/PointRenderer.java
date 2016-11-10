@@ -9,12 +9,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 
 public class PointRenderer {
-	ShapeRenderer shapeRenderer = new ShapeRenderer();
 	private Texture pointImg;
 	private Vector2 pt;
 	private int radius = 0;
-	SpriteBatch batch;
 	World world;
+	ShapeRenderer shapeRenderer = new ShapeRenderer();
+	SpriteBatch batch;
+	
 	
 	public PointRenderer(SpriteBatch batch, World world){
 		this.batch = batch;

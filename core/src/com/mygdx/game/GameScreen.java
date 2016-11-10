@@ -6,7 +6,7 @@ public class GameScreen extends ScreenAdapter {
 	World world;
 	WorldRenderer worldRenderer;
 	
-	public GameScreen(SoldierGame soldierGame){
+	public GameScreen(SoldierGame soldierGame) {
 		world = new World(soldierGame);
 		worldRenderer = new WorldRenderer(soldierGame, world);
 	}
@@ -16,7 +16,7 @@ public class GameScreen extends ScreenAdapter {
 		update(delta);
     }
 	
-	public void update(float delta){
+	public void update(float delta) {
 		world.update();
 	}
 	
