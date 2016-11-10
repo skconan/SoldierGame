@@ -76,7 +76,7 @@ public class World {
 	}
 	
 	public void decreaseBlood() {
-		blood -= 0.02;
+		blood -= 0.04;
 		if(blood <= 0) {
 			blood = 0;
 		}
