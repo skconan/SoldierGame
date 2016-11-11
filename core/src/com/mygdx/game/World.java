@@ -1,17 +1,22 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Buttons;
+import com.badlogic.gdx.math.Vector2;
+
 public class World {
-	public Arrow arrow;
-	public Point point;
-	public Monsters monsters;
-	public Soldier soldier;
-	public PointRenderer pointRenderer;
-	public MonstersRenderer monstersRenderer;
-	public SoldierRenderer soldierRenderer;
-	public ArrowRenderer arrowRenderer;
+	private Arrow arrow;
+	private Point point;
+	private Monsters monsters;
+	private Soldier soldier;
+	private PointRenderer pointRenderer;
+	private MonstersRenderer monstersRenderer;
+	private SoldierRenderer soldierRenderer;
+	private ArrowRenderer arrowRenderer;
 	private int score;
 	private float blood;
 	private int bullet;
+	public int status = 2;
 	
 	World(SoldierGame soldierGame){
 		point = new Point();
@@ -24,29 +29,45 @@ public class World {
 		arrowRenderer = new ArrowRenderer(soldierGame.batch, this);
 		score = 0;
 		blood = 100;
-		bullet = 100;
+		bullet = 40;
 	}	
+	
+	public void update() {
+		monsters.update();
+		arrow.update();
+	}
 	
 	Monsters getMonsters() {
 		return monsters;
+	}
+	
+	MonstersRenderer getMonstersRenderer() {
+		return monstersRenderer;
 	}
 	
 	Point getPoint() {
 		return point;
 	}
 	
+	PointRenderer getPointRenderer() {
+		return pointRenderer;
+	}
+	
 	Soldier getSoldier() {
 		return soldier;
+	}
+	
+	SoldierRenderer getSoldierRenderer() {
+		return soldierRenderer;
 	}
 	
 	Arrow getArrow() {
         return arrow;
     }
 	
-	public void update() {
-		monsters.update();
-		arrow.update();
-	}
+	ArrowRenderer getArrowRenderer() {
+        return arrowRenderer;
+    }
 	
 	public int getScore() {
         return score;
@@ -76,9 +97,24 @@ public class World {
 	}
 	
 	public void decreaseBlood() {
-		blood -= 0.04;
+		blood -= 0.1;
 		if(blood <= 0) {
 			blood = 0;
+			status = 0;
 		}
+	}
+	
+	public int getStatusGame() {
+//		1 start 2 play 3 win 0 die 
+		return status;
+	}
+	
+	public boolean mouseLeftClickButton(Vector2 mousePt, Vector2 objPt) {
+		System.out.println(mousePt);
+		System.out.println(objPt);
+		if(Gdx.input.isButtonPressed(Buttons.LEFT) && mousePt.x >= objPt.x - 200 && mousePt.x <= objPt.x + 200 && mousePt.y >= objPt.y - 25 && mousePt.y <= objPt.y + 25) {
+			return true;
+		}
+		return false;
 	}
 }

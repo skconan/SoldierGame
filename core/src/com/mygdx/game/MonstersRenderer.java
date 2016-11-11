@@ -18,7 +18,7 @@ public class MonstersRenderer {
 		}		
 	}
 	
-	public void render(float delta) {
+	public void render() {
 		int[] monstersProperty = new int[5];
 		for (int r = 0; r < world.getMonsters().getMapHeight(); r++) {
 			 for (int c = 0; c < world.getMonsters().getMapWidth(); c++) {				

@@ -144,9 +144,9 @@ public class Monsters {
 				 if (hasMonsterAt(r, c)){
 					 int x = (int)monstersPosition[r][c][0];
 					 int y = (int)monstersPosition[r][c][1];
-					 int monsterSize = radius - 5;
+					 int monsterSize = radius+20;
 					 if (mouseX >= x-monsterSize && mouseX <= x+monsterSize && mouseY >= y-monsterSize && mouseY <= y+monsterSize){
-						 world.increaseScore();
+						 
 						 removeMonsters(r,c);
 					 }
 				 }
@@ -155,6 +155,7 @@ public class Monsters {
     }
     
     public void removeMonsters(int r, int c) {
+    	world.increaseScore();
     	hasMonsters[r][c] = false;
 		numberOfMonsters--;
     }
