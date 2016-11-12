@@ -16,7 +16,7 @@ public class World {
 	private int score;
 	private float blood;
 	private int bullet;
-	public int status = 2;
+	public int status = 1;
 	
 	World(SoldierGame soldierGame){
 		point = new Point();
@@ -27,10 +27,14 @@ public class World {
 		monstersRenderer = new MonstersRenderer(soldierGame.batch, this);
 		pointRenderer = new PointRenderer(soldierGame.batch, this);
 		arrowRenderer = new ArrowRenderer(soldierGame.batch, this);
+		init();
+	}	
+	
+	public void init() {
 		score = 0;
 		blood = 100;
-		bullet = 40;
-	}	
+		bullet = 400;
+	}
 	
 	public void update() {
 		monsters.update();
@@ -69,6 +73,13 @@ public class World {
         return arrowRenderer;
     }
 	
+	public boolean inRange(float minX, float x, float maxX, float minY, float y, float maxY) {
+		if(x >= minX && x <= maxX && y >= minY && y <= maxY) {
+			return true;
+		}
+		return false;
+	}
+	
 	public int getScore() {
         return score;
     }
@@ -100,19 +111,19 @@ public class World {
 		blood -= 0.1;
 		if(blood <= 0) {
 			blood = 0;
-			status = 0;
+			status = 4;
 		}
 	}
 	
 	public int getStatusGame() {
-//		1 start 2 play 3 win 0 die 
+//		1 start 2 play 3 win 4 die 
 		return status;
 	}
 	
 	public boolean mouseLeftClickButton(Vector2 mousePt, Vector2 objPt) {
-		System.out.println(mousePt);
+		System.out.println("-" + mousePt);
 		System.out.println(objPt);
-		if(Gdx.input.isButtonPressed(Buttons.LEFT) && mousePt.x >= objPt.x - 200 && mousePt.x <= objPt.x + 200 && mousePt.y >= objPt.y - 25 && mousePt.y <= objPt.y + 25) {
+		if(Gdx.input.isButtonPressed(Buttons.LEFT) && inRange(objPt.x - 100, mousePt.x, objPt.x + 100, objPt.y - 50, mousePt.y, objPt.y + 50)) {
 			return true;
 		}
 		return false;

@@ -8,11 +8,12 @@ public class Arrow {
 	private int[] arrow = new int[4];
 	private Random random = new Random();
 	private boolean checkGenArrow;
-	private int indexArrow = 0;
+	private int indexArrow;
 	private World world;
 	
 	public Arrow(World world) {
 		this.world = world;
+		indexArrow = 0;
 		checkGenArrow = true;
 	}
 	
@@ -28,7 +29,7 @@ public class Arrow {
 		}
 	}
 	
-	public int[] getArrow() {
+	public int[] getArrowKey() {
 		return arrow;
 	}
 	
