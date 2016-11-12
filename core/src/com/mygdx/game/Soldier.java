@@ -29,8 +29,14 @@ public class Soldier {
 		oldBlood = world.blood;
 	}
 	
-	public void hitMonsters(int xMonsters, int yMonsters) {
-		if(world.inRange(x - soldierWidth/3, xMonsters, x + soldierWidth*2/3, 0, yMonsters, y + soldierHeight-10)){
+	public void hitMonsters(float xMonsters, float yMonsters) {
+		if(world.inRange(x, xMonsters, x + soldierWidth, 0, yMonsters, y + soldierHeight-10)){
+			world.decreaseBlood();
+		}
+	}
+	
+	public void hitCircle(float xMonsters, float yMonsters) {
+		if(world.inRange(x, xMonsters, x + soldierWidth, 0, yMonsters, y + soldierHeight/2)){
 			world.decreaseBlood();
 		}
 	}

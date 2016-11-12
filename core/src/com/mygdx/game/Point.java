@@ -22,7 +22,20 @@ public class Point {
 		pointImg = new Texture("point.fw.png");
 	}
 	
-	public float getDimension() { 
+	public void render() {
+		float dimension = getDimension();
+		pt = getPositionMouse();
+		shapeRenderer.begin(ShapeType.Filled);
+		shapeRenderer.setColor(1, 1, 0, 2);
+		shapeRenderer.circle(pt.x, SoldierGame.HEIGHT-pt.y, radius);
+		shapeRenderer.end();
+		batch.begin();
+        batch.draw(pointImg, pt.x-dimension/2 ,SoldierGame.HEIGHT-pt.y-dimension/2, dimension, dimension);
+        batch.end();  
+        radius = 0;
+	}
+	
+	private float getDimension() { 
 		float widthRatio = ((getPositionMouse().x - (SoldierGame.WIDTH/2))/(SoldierGame.WIDTH/2))/2;
 		float widthRatioAbs = Math.abs(widthRatio);
 		float heightRatio = (getPositionMouse().y/SoldierGame.HEIGHT)/2;
@@ -54,18 +67,5 @@ public class Point {
 			radius = 20;
 			world.decreaseBullet();
 		} 
-	}
-	
-	public void render() {
-		float dimension = getDimension();
-		pt = getPositionMouse();
-		shapeRenderer.begin(ShapeType.Filled);
-		shapeRenderer.setColor(1, 1, 0, 2);
-		shapeRenderer.circle(pt.x, SoldierGame.HEIGHT-pt.y, radius);
-		shapeRenderer.end();
-		batch.begin();
-        batch.draw(pointImg, pt.x-dimension/2 ,SoldierGame.HEIGHT-pt.y-dimension/2, dimension, dimension);
-        batch.end();  
-        radius = 0;
 	}
 }

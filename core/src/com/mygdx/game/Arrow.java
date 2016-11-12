@@ -9,12 +9,12 @@ public class Arrow {
 	private Texture arrowImg, arrowBehavirorImg, pressKeyImg;
 	private TextureRegion arrowRegion, arrowBehavirorRegion;
 	private SpriteBatch batch;
-	public int[] arrow = new int[4];
+	private Random random = new Random();
+	private World world;
+	private int[] arrow = new int[4];
 	private int arrowSize = 60;
 	private int changeImg = 0;
 	private int indexArrow;
-	private Random random = new Random();
-	private World world;
 	
 	
 	public Arrow(SpriteBatch batch, World world) {
@@ -28,20 +28,29 @@ public class Arrow {
 		arrowBehavirorRegion = new TextureRegion(arrowBehavirorImg);
 	}
 	
-	public void genArrow() {
-		int rand;
-		for(int i = 0; i < arrow.length; i++) {
-			rand = random.nextInt(3);
-			arrow[i] = rand*90;
-		}
-		indexArrow = 0;
-	}
-	
 	public void update() {
 		if(indexArrow == 4) {
 			genArrow();
 		}
 	}
+	
+	public void render() {
+		batch.begin();    
+        for(int i = indexArrow; i < 4; i++) {
+        	if(changeImg % 2 == 0) {
+            	batch.draw(arrowRegion, SoldierGame.WIDTH/3 + (i*arrowSize) + (i*10)
+            			, SoldierGame.HEIGHT - 80, arrowSize/2, arrowSize/2, arrowSize, arrowSize, 1, 1, arrow[i]);
+            } else {
+            	batch.draw(arrowBehavirorRegion, SoldierGame.WIDTH/3 + (i*arrowSize) + (i*10)
+            			, SoldierGame.HEIGHT - 80, arrowSize/2, arrowSize/2, arrowSize, arrowSize, 1, 1, arrow[i]);
+            }
+        }
+        if(world.bullet <= 0) {
+        	batch.draw(pressKeyImg, SoldierGame.WIDTH/2 - 175, SoldierGame.HEIGHT - 200);
+        }
+        changeImg++;
+        batch.end();
+    }
 	
 	public void checkPress(int key) {
 		if(key == arrow[indexArrow]) {
@@ -51,20 +60,14 @@ public class Arrow {
 			world.decreaseBullet();
 		}
 	}
+
+	private void genArrow() {
+		int rand;
+		for(int i = 0; i < arrow.length; i++) {
+			rand = random.nextInt(3);
+			arrow[i] = rand*90;
+		}
+		indexArrow = 0;
+	}
 	
-	public void render() {
-		batch.begin();    
-        for(int i = indexArrow; i < 4; i++) {
-        	if(changeImg % 2 == 0) {
-            	batch.draw(arrowRegion, SoldierGame.WIDTH/3 + (i*arrowSize) + (i*10), SoldierGame.HEIGHT - 80, arrowSize/2, arrowSize/2, arrowSize, arrowSize, 1, 1, arrow[i]);
-            } else {
-            	batch.draw(arrowBehavirorRegion, SoldierGame.WIDTH/3 + (i*arrowSize) + (i*10), SoldierGame.HEIGHT - 80, arrowSize/2, arrowSize/2, arrowSize, arrowSize, 1, 1, arrow[i]);
-            }
-        }
-        if(world.bullet <= 0) {
-        	batch.draw(pressKeyImg, SoldierGame.WIDTH/2 - 175, SoldierGame.HEIGHT - 200);
-        }
-        changeImg++;
-        batch.end();
-    }
 }

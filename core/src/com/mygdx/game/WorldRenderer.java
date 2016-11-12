@@ -9,11 +9,10 @@ import com.badlogic.gdx.math.Vector2;
 
 public class WorldRenderer {
 	private World world;
-	private Texture bgImg, bgImgView, bgImgTop, moonImg, playImg, gameOverImg;
+	private Texture bgImg, bgImgView, bgImgTop, moonImg, playImg, gameOverImg, gameWinImg;
 	private BitmapFont font;
 	private SpriteBatch batch;
 	private Vector2 mousePt = new Vector2();
-	private Vector2 objPt = new Vector2();
 	
 	WorldRenderer(SoldierGame soldierGame, World world) {
 		this.world = world;
@@ -24,30 +23,27 @@ public class WorldRenderer {
 		moonImg = new Texture("moon.png");
 		playImg = new Texture("start.gif");
 		gameOverImg = new Texture("gameOver.fw.png");
+		gameWinImg = new Texture("win.fw.png");
 		font = new BitmapFont();
-		Gdx.graphics.getWidth(); 
-		Gdx.graphics.getHeight();
-		Gdx.graphics.getDisplayMode();
 		Gdx.graphics.setResizable(false);
 	}
 	
 	public void render(float delta) {      
-		update();
 		Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        if(world.getStatusGame() == 1) {
-        	start();
-        } else if(world.getStatusGame() == 2) {
+        if(world.getStatusGame() == 's') {
+        	batch.draw(playImg, 0, 0);
+        } else if(world.getStatusGame() == 'p') {
         	background();
         	font.draw(batch, "SCORE : " + world.score, 10, SoldierGame.HEIGHT-10);
-            	
-        } else if(world.getStatusGame() == 4) {
-        	gameOver();
-        }
-        
+        } else if(world.getStatusGame() == 'w') {
+        	batch.draw(gameWinImg, 0, 0);
+        } else if(world.getStatusGame() == 'o') {
+        	batch.draw(gameOverImg, 0, 0);
+	    }
         batch.end();
-        if(world.getStatusGame() == 2) {
+        if(world.getStatusGame() == 'p') {
 	        world.monstersRenderer.render();
 	        world.arrow.render();
 	        world.soldier.render();
@@ -60,36 +56,5 @@ public class WorldRenderer {
         batch.draw(bgImgView,(int) (0.07*mousePt.x-SoldierGame.WIDTH/2), 0, SoldierGame.WIDTH*2, SoldierGame.HEIGHT);
         batch.draw(moonImg,(int) (0.01*mousePt.x-SoldierGame.WIDTH/2-200), 50, SoldierGame.WIDTH*2, SoldierGame.HEIGHT);
         batch.draw(bgImg, 0, 0, SoldierGame.WIDTH, SoldierGame.HEIGHT);
-	}
-	
-	public void start() {
-		objPt.x = 0;
-		objPt.y = 0;
-		batch.draw(playImg, objPt.x, objPt.y);   
-		objPt.x = SoldierGame.WIDTH/2;
-		objPt.y = SoldierGame.HEIGHT/2;
-    	if(world.mouseLeftClickButton(mousePt, objPt)) {
-    		world.status ++;
-    	}
-    	System.out.println(world.status);
-	}
-	
-	public void play() {
-        
-	}
-	
-	public void gameOver() {
-		objPt.x = 0;
-		objPt.y = 0;
-		batch.draw(gameOverImg, objPt.x, objPt.y);   
-		objPt.x = SoldierGame.WIDTH/2;
-		objPt.y = SoldierGame.HEIGHT/2;
-    	if(world.mouseLeftClickButton(mousePt, objPt)) {
-    		world.status = 1;
-    	}
-	}
-	
-	public void update() {
-		mousePt = world.point.getPositionMouse();
 	}
 }

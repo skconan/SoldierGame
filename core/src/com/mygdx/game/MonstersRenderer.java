@@ -5,15 +5,20 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 public class MonstersRenderer {
 	private SpriteBatch batch;
 	private Texture[] monsterImg = new Texture[10];
-	Texture monsterImgRender;
-	private String fileMonsters[] = {"monster00.fw.png", "monster01.fw.png", "monster02.fw.png", "boss.fw.png"};
+	private Texture monsterImgRender;
+	private String fileMonsters[] = {"monster00.fw.png", "monster01.fw.png", "monster02.fw.png", "bossAtk.fw.png"};
 	private World world;
 	private Sound sound = Gdx.audio.newSound(Gdx.files.internal("sounds/ghostComing.mp3"));
+	private int[] monstersProperty = new int[5];
 	private BitmapFont font;
+	private int size, x, y, blood, indexImg;
+	private ShapeRenderer shapeRenderer = new ShapeRenderer();
 	
 	public MonstersRenderer(SpriteBatch batch, World world) {
 		this.world = world;
@@ -26,29 +31,31 @@ public class MonstersRenderer {
 	}
 	
 	public void render() {
-		
-		int[] monstersProperty = new int[5];
-		for (int r = 0; r < world.monsters.getMapHeight(); r++) {
-			 for (int c = 0; c < world.monsters.getMapWidth(); c++) {				
+		for (int r = 0; r < world.monsters.mapHeight; r++) {
+			 for (int c = 0; c < world.monsters.mapWidth; c++) {				
 				if (world.monsters.hasMonsterAt(r, c)) {
 					if (world.monsters.createdMonsterAt(r, c)) {
 						world.monsters.genMonsters(r, c);
 					}
-					if(world.score < 20) {
-						monsterImgRender = monsterImg[0];
-					} else if (world.score < 40) {
-						monsterImgRender = monsterImg[1];
-					} else if (world.score < 60) {
-						monsterImgRender = monsterImg[2];
-					} else {
-						monsterImgRender = monsterImg[3];
-					}
 					monstersProperty = world.monsters.getMonsters(r, c);
-					world.soldier.hitMonsters(monstersProperty[1], monstersProperty[2]);
+					size = monstersProperty[0];
+					x = monstersProperty[1];
+					y = monstersProperty[2];
+					blood = monstersProperty[3];
+					indexImg = monstersProperty[4];
+					world.soldier.hitMonsters(x, y);
+					monsterImgRender = monsterImg[indexImg];
 					batch.begin();
-					batch.draw(monsterImgRender, monstersProperty[1]-monstersProperty[0]/2, monstersProperty[2]-monstersProperty[0]/2, monstersProperty[0],monstersProperty[0]);
-					font.draw(batch, "Blood : " + monstersProperty[3], monstersProperty[1]-monstersProperty[0]/2, monstersProperty[2]+monstersProperty[0]/2 + 10);
+					font.draw(batch, "Blood : " + blood, x-size/2, y+size/2 + 10);
+					batch.draw(monsterImgRender, x-size/2, y-size/2, size, size);
 					batch.end();
+					if(world.score >= 60) {
+						shapeRenderer.begin(ShapeType.Filled);
+						shapeRenderer.setColor(1, 1, 0, (float) 30);
+						shapeRenderer.circle(x+world.monsters.speedCircle, y-world.monsters.speedCircle, 20);
+						shapeRenderer.end();
+						world.soldier.hitCircle(x+world.monsters.speedCircle, y-world.monsters.speedCircle);
+					}
 				}
 			 }
 		}
