@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class WorldRenderer {
-	private SoldierGame soldierGame;
 	private World world;
 	private Texture bgImg, bgImgView, bgImgTop, moonImg, playImg, gameOverImg;
 	private BitmapFont font;
@@ -17,7 +16,6 @@ public class WorldRenderer {
 	private Vector2 objPt = new Vector2();
 	
 	WorldRenderer(SoldierGame soldierGame, World world) {
-		this.soldierGame = soldierGame;
 		this.world = world;
 		this.batch = soldierGame.batch;
 		bgImg = new Texture("bg.png");
@@ -42,7 +40,7 @@ public class WorldRenderer {
         	start();
         } else if(world.getStatusGame() == 2) {
         	background();
-        	font.draw(batch, "SCORE : " + world.getScore(), 10, SoldierGame.HEIGHT-10);
+        	font.draw(batch, "SCORE : " + world.score, 10, SoldierGame.HEIGHT-10);
             	
         } else if(world.getStatusGame() == 4) {
         	gameOver();
@@ -50,10 +48,10 @@ public class WorldRenderer {
         
         batch.end();
         if(world.getStatusGame() == 2) {
-			world.getPointRenderer().render();
-	        world.getMonstersRenderer().render();
-	        world.getArrowRenderer().render();
-	        world.getSoldierRenderer().render();
+	        world.monstersRenderer.render();
+	        world.arrow.render();
+	        world.soldier.render();
+	        world.point.render();
         }
     }
 	
@@ -89,10 +87,9 @@ public class WorldRenderer {
     	if(world.mouseLeftClickButton(mousePt, objPt)) {
     		world.status = 1;
     	}
-    	System.out.println(world.status);
 	}
 	
 	public void update() {
-		mousePt = world.getPoint().getPositionMouse();
+		mousePt = world.point.getPositionMouse();
 	}
 }

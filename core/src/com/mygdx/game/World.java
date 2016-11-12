@@ -5,28 +5,22 @@ import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.math.Vector2;
 
 public class World {
-	private Arrow arrow;
-	private Point point;
-	private Monsters monsters;
-	private Soldier soldier;
-	private PointRenderer pointRenderer;
-	private MonstersRenderer monstersRenderer;
-	private SoldierRenderer soldierRenderer;
-	private ArrowRenderer arrowRenderer;
-	private int score;
-	private float blood;
-	private int bullet;
+	public Arrow arrow;
+	public Point point;
+	public Monsters monsters;
+	public Soldier soldier;
+	public MonstersRenderer monstersRenderer;
+	public int score;
+	public float blood;
+	public int bullet;
 	public int status = 1;
 	
 	World(SoldierGame soldierGame){
-		point = new Point();
-		arrow = new Arrow(this);
-		soldier = new Soldier(this);
+		point = new Point(soldierGame.batch, this);
+		arrow = new Arrow(soldierGame.batch, this);
+		soldier = new Soldier(soldierGame.batch, this);
 		monsters = new Monsters(this);
-		soldierRenderer = new SoldierRenderer(soldierGame.batch, this);
 		monstersRenderer = new MonstersRenderer(soldierGame.batch, this);
-		pointRenderer = new PointRenderer(soldierGame.batch, this);
-		arrowRenderer = new ArrowRenderer(soldierGame.batch, this);
 		init();
 	}	
 	
@@ -39,39 +33,8 @@ public class World {
 	public void update() {
 		monsters.update();
 		arrow.update();
+		soldier.update();
 	}
-	
-	Monsters getMonsters() {
-		return monsters;
-	}
-	
-	MonstersRenderer getMonstersRenderer() {
-		return monstersRenderer;
-	}
-	
-	Point getPoint() {
-		return point;
-	}
-	
-	PointRenderer getPointRenderer() {
-		return pointRenderer;
-	}
-	
-	Soldier getSoldier() {
-		return soldier;
-	}
-	
-	SoldierRenderer getSoldierRenderer() {
-		return soldierRenderer;
-	}
-	
-	Arrow getArrow() {
-        return arrow;
-    }
-	
-	ArrowRenderer getArrowRenderer() {
-        return arrowRenderer;
-    }
 	
 	public boolean inRange(float minX, float x, float maxX, float minY, float y, float maxY) {
 		if(x >= minX && x <= maxX && y >= minY && y <= maxY) {
@@ -79,18 +42,6 @@ public class World {
 		}
 		return false;
 	}
-	
-	public int getScore() {
-        return score;
-    }
-	
-	public float getBlood() {
-        return blood;
-    }
-	
-	public int getBullet() {
-        return bullet;
-    }
 	
 	public void increaseScore() {
 		score ++;

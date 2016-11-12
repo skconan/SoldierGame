@@ -28,23 +28,23 @@ public class MonstersRenderer {
 	public void render() {
 		
 		int[] monstersProperty = new int[5];
-		for (int r = 0; r < world.getMonsters().getMapHeight(); r++) {
-			 for (int c = 0; c < world.getMonsters().getMapWidth(); c++) {				
-				if (world.getMonsters().hasMonsterAt(r, c)) {
-					if (world.getMonsters().createdMonsterAt(r, c)) {
-						world.getMonsters().genMonsters(r, c);
+		for (int r = 0; r < world.monsters.getMapHeight(); r++) {
+			 for (int c = 0; c < world.monsters.getMapWidth(); c++) {				
+				if (world.monsters.hasMonsterAt(r, c)) {
+					if (world.monsters.createdMonsterAt(r, c)) {
+						world.monsters.genMonsters(r, c);
 					}
-					if(world.getScore() < 20) {
+					if(world.score < 20) {
 						monsterImgRender = monsterImg[0];
-					} else if (world.getScore() < 40) {
+					} else if (world.score < 40) {
 						monsterImgRender = monsterImg[1];
-					} else if (world.getScore() < 60) {
+					} else if (world.score < 60) {
 						monsterImgRender = monsterImg[2];
 					} else {
 						monsterImgRender = monsterImg[3];
 					}
-					monstersProperty = world.getMonsters().getMonsters(r, c);
-					world.getSoldier().hitMonsters(monstersProperty[1], monstersProperty[2]);
+					monstersProperty = world.monsters.getMonsters(r, c);
+					world.soldier.hitMonsters(monstersProperty[1], monstersProperty[2]);
 					batch.begin();
 					batch.draw(monsterImgRender, monstersProperty[1]-monstersProperty[0]/2, monstersProperty[2]-monstersProperty[0]/2, monstersProperty[0],monstersProperty[0]);
 					font.draw(batch, "Blood : " + monstersProperty[3], monstersProperty[1]-monstersProperty[0]/2, monstersProperty[2]+monstersProperty[0]/2 + 10);

@@ -42,7 +42,7 @@ public class Monsters {
 	}
 	
 	public void genMonsters(int r, int c) {
-		if(world.getScore() < 60) {
+		if(world.score < 60) {
 			monstersPosition[r][c][0] = (c*100) + monstersSize;
 			monstersPosition[r][c][1] = (4-r)*100 + monstersSize;
 			monstersBlood[r][c] = getBlood();
@@ -54,7 +54,7 @@ public class Monsters {
 	}
 	
 	public int[] getMonsters(int r, int c) {
-		if(world.getScore() < 60) {
+		if(world.score < 60) {
 			monstersMove[r][c] = getMove();
 			monstersPosition[r][c][0] += monstersMove[r][c];
 			monstersPosition[r][c][1] -= monstersMove[r][c];
@@ -70,7 +70,7 @@ public class Monsters {
 	
 	private void genMAP() {
 		int[] ran = new int[3];
-		for (int r = 0; r < mapHeight && world.getScore() < 60; r++) {
+		for (int r = 0; r < mapHeight && world.score < 60; r++) {
 			ran[0] = rand.nextInt(3)+4;
 			ran[1] = rand.nextInt(10);
 			ran[2] = rand.nextInt(3);
@@ -84,9 +84,8 @@ public class Monsters {
 					numberOfMonsters++;
 				}
 			}
-			System.out.println(world.getScore() + " " +numberOfMonsters);
 		}
-		if(world.getScore() >= 60) {
+		if(world.score >= 60) {
 			ran[2] = rand.nextInt(3);
 			hasMonsters[2][ran[2]] = true;
 			createdMonsters[2][ran[2]] = true;
@@ -120,9 +119,9 @@ public class Monsters {
 	
 	public int getBlood() {
 		int blood = rand.nextInt(1) + 1;
-		if(world.getScore() >= 40) {
+		if(world.score >= 40) {
 			blood += 2;
-		} else if(world.getScore() >= 20) {
+		} else if(world.score >= 20) {
 			blood++;
 		} 
 		return blood;
@@ -164,7 +163,7 @@ public class Monsters {
     public void removeMonsters(int r, int c) {
     	hasMonsters[r][c] = false;
 		numberOfMonsters--;
-		if(numberOfMonsters <= 0 || world.getScore() == 60) {
+		if(numberOfMonsters <= 0 || world.score == 60) {
 			initMonsters();
 		}
     }

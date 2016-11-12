@@ -1,64 +1,70 @@
 package com.mygdx.game;
 
 import java.util.Random;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Arrow {
-	private int[] arrow = new int[4];
-	private Random random = new Random();
-	private boolean checkGenArrow;
+	private Texture arrowImg, arrowBehavirorImg, pressKeyImg;
+	private TextureRegion arrowRegion, arrowBehavirorRegion;
+	private SpriteBatch batch;
+	public int[] arrow = new int[4];
+	private int arrowSize = 60;
+	private int changeImg = 0;
 	private int indexArrow;
+	private Random random = new Random();
 	private World world;
 	
-	public Arrow(World world) {
-		this.world = world;
+	
+	public Arrow(SpriteBatch batch, World world) {
+		this.world = world;	
+		this.batch = batch;
 		indexArrow = 0;
-		checkGenArrow = true;
+		arrowImg = new Texture("arrow.fw.png");
+		pressKeyImg = new Texture("pressKey.fw.png");
+		arrowBehavirorImg = new Texture("arrowBehaviror.fw.png");
+		arrowRegion = new TextureRegion(arrowImg);
+		arrowBehavirorRegion = new TextureRegion(arrowBehavirorImg);
 	}
 	
 	public void genArrow() {
 		int rand;
-		if(checkGenArrow) {
-			for(int i = 0; i < arrow.length; i++) {
-				rand = random.nextInt(3);
-				arrow[i] = rand*90;
-			}
-			indexArrow = 0;
-			checkGenArrow = false;
+		for(int i = 0; i < arrow.length; i++) {
+			rand = random.nextInt(3);
+			arrow[i] = rand*90;
 		}
-	}
-	
-	public int[] getArrowKey() {
-		return arrow;
-	}
-	
-	private void pressKeyboard() {
-		if(indexArrow == 4) {
-			checkGenArrow = true;
-			genArrow();
-		}
-		if(Gdx.input.isKeyJustPressed(Keys.RIGHT)) {
-			checkPress(0, arrow[indexArrow]);
-        } else if(Gdx.input.isKeyJustPressed(Keys.UP)) {
-			checkPress(90, arrow[indexArrow]);	
-        } else if(Gdx.input.isKeyJustPressed(Keys.LEFT)) {
-			checkPress(180, arrow[indexArrow]);	
-        } else if(Gdx.input.isKeyJustPressed(Keys.DOWN)) {
-			checkPress(270, arrow[indexArrow]);	
-        }
+		indexArrow = 0;
 	}
 	
 	public void update() {
-		pressKeyboard();
+		if(indexArrow == 4) {
+			genArrow();
+		}
 	}
 	
-	private void checkPress(int key,int arrow1) {
-		if(key == arrow1) {
-			arrow[indexArrow++] = 99;
+	public void checkPress(int key) {
+		if(key == arrow[indexArrow]) {
 			world.increaseBullet();
+			indexArrow++;
 		} else {
 			world.decreaseBullet();
 		}
 	}
+	
+	public void render() {
+		batch.begin();    
+        for(int i = indexArrow; i < 4; i++) {
+        	if(changeImg % 2 == 0) {
+            	batch.draw(arrowRegion, SoldierGame.WIDTH/3 + (i*arrowSize) + (i*10), SoldierGame.HEIGHT - 80, arrowSize/2, arrowSize/2, arrowSize, arrowSize, 1, 1, arrow[i]);
+            } else {
+            	batch.draw(arrowBehavirorRegion, SoldierGame.WIDTH/3 + (i*arrowSize) + (i*10), SoldierGame.HEIGHT - 80, arrowSize/2, arrowSize/2, arrowSize, arrowSize, 1, 1, arrow[i]);
+            }
+        }
+        if(world.bullet <= 0) {
+        	batch.draw(pressKeyImg, SoldierGame.WIDTH/2 - 175, SoldierGame.HEIGHT - 200);
+        }
+        changeImg++;
+        batch.end();
+    }
 }
