@@ -29,7 +29,7 @@ public class World {
 		monstersRenderer = new MonstersRenderer(soldierGame.batch, this);
 		score = 0;
 		blood = 100;
-		bullet = 40;
+		bullet = 60;
 	}
 	
 	public void update() {

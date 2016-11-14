@@ -12,11 +12,11 @@ public class Monsters {
 	private boolean[][] createdMonsters;
 	private float[][][] position;
 	private int[][] blood;
-	public float[][] speed;
     private Random rand;
     private World world;
-    
-	public Monsters(World world) {
+    public float[][] speed;
+
+    public Monsters(World world) {
 		this.world = world;
 		rand = new Random();
 		hasMonsters = new boolean[mapHeight][mapWidth];

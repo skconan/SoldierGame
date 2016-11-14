@@ -36,7 +36,7 @@ public class WorldRenderer {
         	batch.draw(playImg, 0, 0);
         } else if(world.getStatusGame() == 'p') {
         	background();
-        	font.draw(batch, "SCORE : " + world.score, 10, SoldierGame.HEIGHT-10);
+        	font.draw(batch, "SCORE : " + world.score +"/" +world.scoreWin, 10, SoldierGame.HEIGHT-10);
         } else if(world.getStatusGame() == 'w') {
         	batch.draw(gameWinImg, 0, 0);
         } else if(world.getStatusGame() == 'o') {
