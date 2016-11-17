@@ -12,7 +12,6 @@ public class WorldRenderer {
 	private Texture bgImg, bgImgView, bgImgTop, moonImg, playImg, gameOverImg, gameWinImg;
 	private BitmapFont font;
 	private SpriteBatch batch;
-	private Vector2 mousePt = new Vector2();
 	
 	WorldRenderer(SoldierGame soldierGame, World world) {
 		this.world = world;
@@ -21,7 +20,7 @@ public class WorldRenderer {
 		bgImgTop = new Texture("bg_top.gif");
 		bgImgView = new Texture("bg_view.png");
 		moonImg = new Texture("moon.png");
-		playImg = new Texture("start.gif");
+		playImg = new Texture("start.fw.png");
 		gameOverImg = new Texture("gameOver.fw.png");
 		gameWinImg = new Texture("win.fw.png");
 		font = new BitmapFont();
@@ -52,9 +51,10 @@ public class WorldRenderer {
     }
 	
 	public void background() {
+		Vector2 ptMouse = world.point.getPositionMouse();
 		batch.draw(bgImgTop, 0, 0, SoldierGame.WIDTH, SoldierGame.HEIGHT);
-        batch.draw(bgImgView,(int) (0.07*mousePt.x-SoldierGame.WIDTH/2), 0, SoldierGame.WIDTH*2, SoldierGame.HEIGHT);
-        batch.draw(moonImg,(int) (0.01*mousePt.x-SoldierGame.WIDTH/2-200), 50, SoldierGame.WIDTH*2, SoldierGame.HEIGHT);
+        batch.draw(bgImgView,(int) (0.07*ptMouse.x-SoldierGame.WIDTH/2), 0, SoldierGame.WIDTH*2, SoldierGame.HEIGHT);
+        batch.draw(moonImg,(int) (0.01*ptMouse.x-SoldierGame.WIDTH/2-200), 50, SoldierGame.WIDTH*2, SoldierGame.HEIGHT);
         batch.draw(bgImg, 0, 0, SoldierGame.WIDTH, SoldierGame.HEIGHT);
 	}
 }

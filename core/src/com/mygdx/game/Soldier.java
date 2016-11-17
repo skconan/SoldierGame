@@ -16,11 +16,12 @@ public class Soldier {
 	private float x, y, rotation;
 	private int soldierHeight = 200;
 	private int soldierWidth = 300;
+	private int atk = 1;
 	
 	public Soldier(SpriteBatch batch, World world){
 		this.world = world;
 		this.batch = batch;
-		soldierImg = new Texture("soldier.png");
+		soldierImg = new Texture("soldier0.fw.png");
 		hitImg = new Texture("attack.fw.png");
 		bloodImg = new Texture("blood.fw.png");
 		bloodFrameImg = new Texture("bloodFrame.fw.png");
@@ -30,13 +31,13 @@ public class Soldier {
 	}
 	
 	public void hitMonsters(float xMonsters, float yMonsters) {
-		if(world.inRange(x, xMonsters, x + soldierWidth, 0, yMonsters, y + soldierHeight-10)){
+		if(world.inRange(x, xMonsters, x + soldierWidth, 0, yMonsters, y + soldierHeight-10)) {
 			world.decreaseBlood();
 		}
 	}
 	
 	public void hitCircle(float xMonsters, float yMonsters) {
-		if(world.inRange(x, xMonsters, x + soldierWidth, 0, yMonsters, y + soldierHeight/2)){
+		if(world.inRange(x, xMonsters, x + soldierWidth, 0, yMonsters, y + soldierHeight/2)) {
 			world.decreaseBlood();
 		}
 	}
@@ -49,17 +50,25 @@ public class Soldier {
 	}
 	
 	public void render() {
+		if(world.score >= 40) {
+			soldierImg = new Texture("soldier.png");
+			soldierSprite = new Sprite(soldierImg);
+			atk = 3;
+		} else if(world.score >= 20) {
+			soldierImg = new Texture("soldier1.fw.png");
+			soldierSprite = new Sprite(soldierImg);
+			atk = 2;
+		}
         batch.begin();
         batch.draw(soldierSprite, x, y, 0, 0, soldierWidth, world.soldier.soldierHeight, 1, 1, rotation);
-        font.draw(batch, "BULLET : " + world.bullet, SoldierGame.WIDTH - 100, SoldierGame.HEIGHT-10);  
-        font.draw(batch, "HEALTH : ", 20, 40); 
-        batch.draw(bloodImg, 90, 20, world.blood*2, 30);
-        batch.draw(bloodFrameImg, 90, 20, 200, 30);
+        font.draw(batch, "BULLET : " + world.bullet + " ATK : X"+atk, SoldierGame.WIDTH - 150, SoldierGame.HEIGHT-10);  
+        font.draw(batch, "HP : ", SoldierGame.WIDTH/2-120,SoldierGame.HEIGHT-10); 
+        batch.draw(bloodImg, SoldierGame.WIDTH/2-80, SoldierGame.HEIGHT-23, world.blood*2, 20);
+        batch.draw(bloodFrameImg, SoldierGame.WIDTH/2-80, SoldierGame.HEIGHT-23, 200, 20);
         if(oldBlood != world.blood) {
         	oldBlood = world.blood;
         	batch.draw(hitImg, 0, 0);
         }
         batch.end();
-   
     }
 }

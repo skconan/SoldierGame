@@ -1,8 +1,5 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
-
 public class World {
 	private SoldierGame soldierGame;
 	public Arrow arrow;
@@ -14,7 +11,8 @@ public class World {
 	public int score;
 	public float blood;
 	public int bullet;
-	public int scoreWin = 80;
+	public int scoreWin = 100;
+	public int highScore = 0;
 	
 	World(SoldierGame soldierGame){
 		this.soldierGame = soldierGame;
@@ -67,7 +65,7 @@ public class World {
 	}
 	
 	public void decreaseBlood() {
-		blood -= 0.1;
+		blood -= 0.15;
 		if(blood <= 0) {
 			blood = 0;
 			status = 'o';
@@ -77,13 +75,4 @@ public class World {
 	public char getStatusGame() {
 		return status;
 	}
-	
-	public boolean mouseLeftClickButton(Vector2 mousePt, Vector2 objPt) {
-		if(Gdx.input.justTouched() && inRange(objPt.x - 100, mousePt.x, objPt.x + 100, objPt.y - 50, mousePt.y, objPt.y + 50)) {
-			return true;
-		}
-		return false;
-	}
-	
-	
 }

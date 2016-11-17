@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -15,8 +16,9 @@ public class Point {
 	private ShapeRenderer shapeRenderer = new ShapeRenderer();
 	private	SpriteBatch batch;
 	private int radius = 0;
-	
-	public Point(SpriteBatch batch, World world){
+	private Sound sound = Gdx.audio.newSound(Gdx.files.internal("sounds/gun.wav"));
+
+	public Point(SpriteBatch batch, World world) {
 		this.batch = batch;
 		this.world = world;
 		pointImg = new Texture("point.fw.png");
@@ -62,10 +64,11 @@ public class Point {
 	
 	public void shoot() {
 		Vector2 pt = getPositionMouse();
-		if (world.bullet > 0 && world.blood > 0){
+		if (world.bullet > 0 && world.blood > 0) {
 			world.monsters.kill((int)pt.x, SoldierGame.HEIGHT-(int)pt.y);
 			radius = 20;
 			world.decreaseBullet();
+			sound.play(1.0f);
 		} 
 	}
 }

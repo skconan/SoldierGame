@@ -14,7 +14,7 @@ public class MonstersRenderer {
 	private Texture monsterImgRender;
 	private String fileMonsters[] = {"monster00.fw.png", "monster01.fw.png", "monster02.fw.png", "bossAtk.fw.png"};
 	private World world;
-	private Sound sound = Gdx.audio.newSound(Gdx.files.internal("sounds/ghostComing.mp3"));
+	private Sound sound = Gdx.audio.newSound(Gdx.files.internal("sounds/sound.mp3"));
 	private int[] monstersProperty = new int[5];
 	private BitmapFont font;
 	private int size, x, y, blood, indexImg;
@@ -46,7 +46,7 @@ public class MonstersRenderer {
 					world.soldier.hitMonsters(x, y);
 					monsterImgRender = monsterImg[indexImg];
 					batch.begin();
-					font.draw(batch, "Blood : " + blood, x-size/2, y+size/2 + 10);
+					font.draw(batch, "HP : " + blood, x-size/2, y+size/2 + 10);
 					batch.draw(monsterImgRender, x-size/2, y-size/2, size, size);
 					batch.end();
 					if(world.score >= 60) {

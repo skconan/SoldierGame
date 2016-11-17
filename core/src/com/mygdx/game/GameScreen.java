@@ -1,17 +1,12 @@
 package com.mygdx.game;
 
-import java.security.Key;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.math.Vector2;
 
 public class GameScreen extends ScreenAdapter {
 	private World world;
 	private WorldRenderer worldRenderer;
-	private Vector2 mousePt = new Vector2();
-	private Vector2 objPt = new Vector2();
 	
 	public GameScreen(SoldierGame soldierGame) {
 		world = new World(soldierGame);
@@ -25,7 +20,6 @@ public class GameScreen extends ScreenAdapter {
 	
 	public void update(float delta) {
 		world.update();
-		mousePt = world.point.getPositionMouse();
 		if(world.status == 's') {
 			start();
 		} else if (world.status == 'p') {
@@ -39,14 +33,11 @@ public class GameScreen extends ScreenAdapter {
 	}
 	
 	public void start() {
-		objPt.x = SoldierGame.WIDTH/2;
-		objPt.y = SoldierGame.HEIGHT/2;
-    	if(world.mouseLeftClickButton(mousePt, objPt)) {
+    	if(Gdx.input.isKeyJustPressed(Keys.ANY_KEY)) {
     		world.status = 'p';
     		world.init();
     		world.monsters.initMonsters();
     	}
-    	System.out.println(world.status);
 	}
 	
 	public void play() {
@@ -62,20 +53,21 @@ public class GameScreen extends ScreenAdapter {
         } else if(Gdx.input.isKeyJustPressed(Keys.DOWN) || Gdx.input.isKeyJustPressed(Keys.S)) {
         	world.arrow.checkPress(270);	
         }
+		if(Gdx.input.isKeyJustPressed(Keys.R)) {
+			world.bullet = 1000;
+        }
 	}
 	
 	public void gameOver() { 
-		objPt.x = SoldierGame.WIDTH/2;
-		objPt.y = SoldierGame.HEIGHT/2;
-    	if(world.mouseLeftClickButton(mousePt, objPt)) {
-    		world.status = 's';
+    	if(Gdx.input.isKeyJustPressed(Keys.ANY_KEY)) {
+    		world.status = 'p';
+    		world.init();
+    		world.monsters.initMonsters();
     	}
 	}
 	
 	public void gameWin() {  
-		objPt.x = SoldierGame.WIDTH/2;
-		objPt.y = SoldierGame.HEIGHT/2;
-    	if(world.mouseLeftClickButton(mousePt, objPt)) {
+    	if(Gdx.input.isKeyJustPressed(Keys.ANY_KEY)) {
     		world.status = 's';
     	}
 	}
