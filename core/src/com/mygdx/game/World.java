@@ -11,7 +11,7 @@ public class World {
 	public int score;
 	public float blood;
 	public int bullet;
-	public int scoreWin = 100;
+	public int scoreWin = 90;
 	public int highScore = 0;
 	
 	World(SoldierGame soldierGame){
@@ -47,6 +47,9 @@ public class World {
 		score ++;
 		if(score == scoreWin) {
 			status = 'w';
+		}
+		if(score > highScore) {
+			highScore = score;
 		}
 	}
 	

@@ -61,7 +61,7 @@ public class Soldier {
 		}
         batch.begin();
         batch.draw(soldierSprite, x, y, 0, 0, soldierWidth, world.soldier.soldierHeight, 1, 1, rotation);
-        font.draw(batch, "BULLET : " + world.bullet + " ATK : X"+atk, SoldierGame.WIDTH - 150, SoldierGame.HEIGHT-10);  
+        font.draw(batch, "BULLET : " + world.bullet + " ATK : X"+atk, SoldierGame.WIDTH - 155, SoldierGame.HEIGHT-10);  
         font.draw(batch, "HP : ", SoldierGame.WIDTH/2-120,SoldierGame.HEIGHT-10); 
         batch.draw(bloodImg, SoldierGame.WIDTH/2-80, SoldierGame.HEIGHT-23, world.blood*2, 20);
         batch.draw(bloodFrameImg, SoldierGame.WIDTH/2-80, SoldierGame.HEIGHT-23, 200, 20);
