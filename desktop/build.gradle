@@ -31,7 +31,10 @@ eclipse {
     project {
         name = appName + "-desktop"
         linkedResource name: 'assets', type: '2', location: 'PARENT-1-PROJECT_LOC/core/assets'
+<<<<<<< HEAD
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+=======
+>>>>>>> c47aba8c4f3a297d261d0ef920b0d2df023d2de1
     }
 }
 
@@ -44,4 +47,8 @@ task afterEclipseImport(description: "Post processing after project generation",
     printer.setPreserveWhitespace(true)
     printer.print(classpath)
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> c47aba8c4f3a297d261d0ef920b0d2df023d2de1
